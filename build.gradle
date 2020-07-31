@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
     id 'idea'
+    id 'application'
 }
 
 group 'ru.sber'
@@ -14,6 +15,12 @@ repositories {
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+mainClassName = "ru.sber.hack.Application"
+
+run {
+    systemProperties System.getProperties()
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
