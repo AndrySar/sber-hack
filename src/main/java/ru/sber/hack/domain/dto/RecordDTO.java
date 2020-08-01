@@ -2,24 +2,24 @@ package ru.sber.hack.domain.dto;
 
 public class RecordDTO {
     private final String id;
-    private final String title;
-    private final String path;
+    private final String text;
+    private final String fileName;
 
-    public RecordDTO(String id, String title, String path) {
+    public RecordDTO(String id, String text, String fileName) {
         this.id = id;
-        this.title = title;
-        this.path = path;
+        this.text = text;
+        this.fileName = fileName;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getText() {
+        return text;
     }
 
-    public String getPath() {
-        return path;
+    public String getFileName() {
+        return fileName;
     }
 }

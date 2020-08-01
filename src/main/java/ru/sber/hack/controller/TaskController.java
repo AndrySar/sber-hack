@@ -5,6 +5,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.sber.hack.converter.TaskConverter;
 import ru.sber.hack.domain.dto.CreateTaskDTO;
 import ru.sber.hack.domain.dto.CreateTaskRecordDTO;
+import ru.sber.hack.domain.dto.RecordDTO;
 import ru.sber.hack.domain.dto.TaskDTO;
 import ru.sber.hack.domain.entity.TaskEntity;
-import ru.sber.hack.domain.model.request.CreateTaskRequest;
 import ru.sber.hack.domain.model.response.CreateTaskResponse;
 import ru.sber.hack.service.record.TaskRecordService;
 import ru.sber.hack.service.task.TaskService;
@@ -60,16 +62,26 @@ public class TaskController {
 
     @RequestMapping(path = "/task/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public TaskDTO getTask(@PathVariable final String id) {
+    public ResponseEntity getTask(@PathVariable final String id) throws JsonProcessingException {
         Optional<TaskEntity> optionalTaskEntity = taskService.getTask(Long.valueOf(id));
 
         if (optionalTaskEntity.isPresent()) {
             TaskEntity taskEntity = optionalTaskEntity.get();
 
-           return TaskConverter.convert(taskEntity);
+            TaskDTO taskDTO = TaskConverter.convert(taskEntity);
+
+            List<RecordDTO> recordDTOS = taskRecordService.getRecordsByTaskId(taskEntity.getId());
+
+            taskDTO.setRecords(recordDTOS);
+
+
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String json = ow.writeValueAsString(taskDTO);
+
+            return ResponseEntity.status(HttpStatus.OK).body(json);
         }
 
-        return new TaskDTO();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task with id=" + id + " does not found");
     }
 
 }

@@ -10,4 +10,6 @@ public interface TaskRecordService {
     void createTaskRecord(CreateTaskRecordDTO dto);
 
     void createTaskRecords(List<CreateTaskRecordDTO> dtos);
+
+    List<RecordDTO> getRecordsByTaskId(Long taskId);
 }
