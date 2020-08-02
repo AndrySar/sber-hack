@@ -63,20 +63,20 @@ public class TaskServiceImpl implements TaskService {
             log.info("Input text: {}", text);
 
             String escapedHtml = StringEscapeUtils.escapeHtml4(text);
-            String escapedSpecChar = escapedHtml.replace("&nbsp;", "");
-            escapedSpecChar = escapedSpecChar.replace("&nbsp", "");
-            escapedSpecChar = escapedSpecChar.replace(";", "");
-            escapedSpecChar = escapedSpecChar.replace("&ltp", "");
-            escapedSpecChar = escapedSpecChar.replace("&ltp&gt", "");
-            escapedSpecChar = escapedSpecChar.replace("&quot", "");
-            escapedSpecChar = escapedSpecChar.replace("&ampnbsp", "");
-            escapedSpecChar = escapedSpecChar.replace("/p&gt", "");
-            escapedSpecChar = escapedSpecChar.replace("&ampnbsp&lt", "");
-            escapedSpecChar = escapedSpecChar.replace("&lt/p&gt", "");
-            escapedSpecChar = escapedSpecChar.replace("&gt", "");
-            escapedSpecChar = escapedSpecChar.replace("&nbsp;", "");
-            escapedSpecChar = escapedSpecChar.replace("<p>", "");
-            escapedSpecChar = escapedSpecChar.replace("</p>", "");
+            String escapedSpecChar = escapedHtml.replace("&nbsp;", " ");
+            escapedSpecChar = escapedSpecChar.replace("&nbsp", " ");
+            escapedSpecChar = escapedSpecChar.replace(";", " ");
+            escapedSpecChar = escapedSpecChar.replace("&ltp", " ");
+            escapedSpecChar = escapedSpecChar.replace("&ltp&gt", " ");
+            escapedSpecChar = escapedSpecChar.replace("&quot", " ");
+            escapedSpecChar = escapedSpecChar.replace("&ampnbsp", " ");
+            escapedSpecChar = escapedSpecChar.replace("/p&gt", " ");
+            escapedSpecChar = escapedSpecChar.replace("&ampnbsp&lt", " ");
+            escapedSpecChar = escapedSpecChar.replace("&lt/p&gt", " ");
+            escapedSpecChar = escapedSpecChar.replace("&gt", " ");
+            escapedSpecChar = escapedSpecChar.replace("&nbsp;", " ");
+            escapedSpecChar = escapedSpecChar.replace("<p>", " ");
+            escapedSpecChar = escapedSpecChar.replace("</p>", " ");
 
             log.info("Output text: {}", escapedSpecChar);
 
