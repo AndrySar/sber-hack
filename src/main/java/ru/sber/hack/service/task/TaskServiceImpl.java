@@ -61,7 +61,11 @@ public class TaskServiceImpl implements TaskService {
 
         try {
             String escapedHtml = StringEscapeUtils.escapeHtml4(text);
-            return textRecognitionClient.recognitionText(escapedHtml);
+            String escapedSpecChar = escapedHtml.replace("&nbsp;", "");
+            escapedSpecChar = escapedSpecChar.replace("&nbsp", "");
+            escapedSpecChar = escapedSpecChar.replace(";", "");
+
+            return textRecognitionClient.recognitionText(escapedSpecChar);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
