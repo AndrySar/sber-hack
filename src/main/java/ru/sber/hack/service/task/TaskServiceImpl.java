@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,8 +54,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private String getAudionDescription(String text) {
+
+        if (StringUtils.isBlank(text)) {
+            return "";
+        }
+
         try {
-            return textRecognitionClient.recognitionText(text);
+            String escapedHtml = StringEscapeUtils.escapeHtml4(text);
+            return textRecognitionClient.recognitionText(escapedHtml);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
