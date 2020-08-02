@@ -11,6 +11,7 @@ public class TaskDTO {
   private Long ownerId;
   private String created;
   private String updated;
+  private String audioDescription;
   private List<RecordDTO> records;
 
   public TaskDTO() {
@@ -18,7 +19,7 @@ public class TaskDTO {
   }
 
   public TaskDTO(long id, String title, int status, String description, Long ownerId, LocalDateTime created,
-          LocalDateTime updated)
+          LocalDateTime updated, String audioDescription)
   {
     this.id = id;
     this.title = title;
@@ -27,6 +28,7 @@ public class TaskDTO {
     this.ownerId = ownerId;
     this.created = created.toString();
     this.updated = updated.toString();
+    this.audioDescription = audioDescription;
   }
 
   public long getId() {
@@ -63,5 +65,9 @@ public class TaskDTO {
 
   public void setRecords(List<RecordDTO> records) {
     this.records = records;
+  }
+
+  public String getAudioDescription() {
+    return audioDescription;
   }
 }

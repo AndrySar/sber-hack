@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import ru.sber.hack.client.recognition.TextRecognitionClient;
 import ru.sber.hack.converter.TaskConverter;
 import ru.sber.hack.domain.dto.CreateTaskDTO;
 import ru.sber.hack.domain.dto.CreateTaskRecordDTO;
@@ -36,15 +37,19 @@ public class TaskController {
 
     private final TaskService taskService;
     private final TaskRecordService taskRecordService;
+    private final TextRecognitionClient textRecognitionClient;
 
     public  TaskController(TaskService taskService,
-            TaskRecordService taskRecordService) {
+            TaskRecordService taskRecordService,
+            TextRecognitionClient textRecognitionClient) {
         this.taskService = taskService;
         this.taskRecordService = taskRecordService;
+        this.textRecognitionClient = textRecognitionClient;
     }
 
     @RequestMapping(path = "/task", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public CreateTaskResponse createTask(@RequestBody CreateTaskDTO taskDTO) {
+
         TaskEntity taskEntity = taskService.createTask(taskDTO);
         List<String> records = taskDTO.getRecords();
 

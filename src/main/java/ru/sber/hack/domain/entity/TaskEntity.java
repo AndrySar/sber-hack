@@ -41,6 +41,9 @@ public class TaskEntity {
     @Column(name = "updated")
     private LocalDateTime updated;
 
+    @Column(name = "audio_path")
+    private String audioPath;
+
     public Long getId() {
         return id;
     }
@@ -97,35 +100,49 @@ public class TaskEntity {
         this.updated = updated;
     }
 
+    public String getAudioPath() {
+        return audioPath;
+    }
+
+    public void setAudioPath(String audioPath) {
+        this.audioPath = audioPath;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         TaskEntity that = (TaskEntity) o;
         return Objects.equals(id, that.id) &&
-          Objects.equals(title, that.title) &&
-          status == that.status &&
-          Objects.equals(description, that.description) &&
-          Objects.equals(ownerId, that.ownerId) &&
-          Objects.equals(created, that.created) &&
-          Objects.equals(created, that.created);
+                Objects.equals(title, that.title) &&
+                status == that.status &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(ownerId, that.ownerId) &&
+                Objects.equals(created, that.created) &&
+                Objects.equals(updated, that.updated) &&
+                Objects.equals(audioPath, that.audioPath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, status, description, ownerId, created, created);
+        return Objects.hash(id, title, status, description, ownerId, created, updated, audioPath);
     }
 
     @Override
     public String toString() {
         return "TaskEntity{" +
-          "id=" + id +
-          ", title='" + title + '\'' +
-          ", status=" + status +
-          ", description='" + description + '\'' +
-          ", ownerId=" + ownerId +
-          ", created=" + created +
-          ", created=" + created +
-          '}';
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", status=" + status +
+                ", description='" + description + '\'' +
+                ", ownerId=" + ownerId +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", audioPath='" + audioPath + '\'' +
+                '}';
     }
 }

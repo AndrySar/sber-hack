@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.sber.hack.client.recognition.TextRecognitionClient;
 import ru.sber.hack.converter.TaskConverter;
 import ru.sber.hack.domain.dto.CreateTaskDTO;
 import ru.sber.hack.domain.dto.TaskDTO;
@@ -14,14 +17,23 @@ import ru.sber.hack.repository.TaskEntityRepository;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private TaskEntityRepository taskEntityRepository;
+    private final static Logger log = LoggerFactory.getLogger(TaskServiceImpl.class);
 
-    public TaskServiceImpl(TaskEntityRepository taskEntityRepository) {
+    private final TaskEntityRepository taskEntityRepository;
+    private final TextRecognitionClient textRecognitionClient;
+
+    public TaskServiceImpl(TaskEntityRepository taskEntityRepository,
+            TextRecognitionClient textRecognitionClient) {
         this.taskEntityRepository = taskEntityRepository;
+        this.textRecognitionClient = textRecognitionClient;
     }
 
     public TaskEntity createTask(CreateTaskDTO task) {
         TaskEntity taskEntity = TaskConverter.convert(task);
+
+        String filePath = getAudionDescription(taskEntity.getDescription());
+        taskEntity.setAudioPath(filePath);
+
         return taskEntityRepository.save(taskEntity);
     }
 
@@ -37,5 +49,14 @@ public class TaskServiceImpl implements TaskService {
 
     public Optional<TaskEntity> getTask(Long id) {
         return taskEntityRepository.findById(id);
+    }
+
+    private String getAudionDescription(String text) {
+        try {
+            return textRecognitionClient.recognitionText(text);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return "";
     }
 }

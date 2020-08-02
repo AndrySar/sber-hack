@@ -1,7 +1,9 @@
 package ru.sber.hack.converter;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import ru.sber.hack.domain.dto.CreateTaskDTO;
 import ru.sber.hack.domain.dto.TaskDTO;
 import ru.sber.hack.domain.entity.TaskEntity;
@@ -37,6 +39,19 @@ public class TaskConverter {
                 taskEntity.getDescription(),
                 taskEntity.getOwnerId(),
                 taskEntity.getCreated(),
-                taskEntity.getUpdated());
+                taskEntity.getUpdated(),
+                getAudioDescription(taskEntity.getAudioPath()));
+    }
+
+    private static String getAudioDescription(String path) {
+        return Optional.ofNullable(path)
+                .filter(StringUtils::isNotBlank)
+                .map(TaskConverter::getFileName)
+                .orElse("");
+    }
+
+    private static String getFileName(String path) {
+        String[] arr = path.split("/");
+        return arr[arr.length - 1];
     }
 }
