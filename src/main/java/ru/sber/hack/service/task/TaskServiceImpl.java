@@ -62,8 +62,7 @@ public class TaskServiceImpl implements TaskService {
         try {
             log.info("Input text: {}", text);
 
-            String escapedHtml = StringEscapeUtils.escapeHtml4(text);
-            String escapedSpecChar = escapedHtml.replace("&nbsp;", " ");
+            String escapedSpecChar = text;
             escapedSpecChar = escapedSpecChar.replace("&nbsp", " ");
             escapedSpecChar = escapedSpecChar.replace(";", " ");
             escapedSpecChar = escapedSpecChar.replace("&ltp", " ");
