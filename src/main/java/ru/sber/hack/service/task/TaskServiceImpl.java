@@ -60,6 +60,8 @@ public class TaskServiceImpl implements TaskService {
         }
 
         try {
+            log.info("Input text: {}", text);
+
             String escapedHtml = StringEscapeUtils.escapeHtml4(text);
             String escapedSpecChar = escapedHtml.replace("&nbsp;", "");
             escapedSpecChar = escapedSpecChar.replace("&nbsp", "");
@@ -72,6 +74,11 @@ public class TaskServiceImpl implements TaskService {
             escapedSpecChar = escapedSpecChar.replace("&ampnbsp&lt", "");
             escapedSpecChar = escapedSpecChar.replace("&lt/p&gt", "");
             escapedSpecChar = escapedSpecChar.replace("&gt", "");
+            escapedSpecChar = escapedSpecChar.replace("&nbsp;", "");
+            escapedSpecChar = escapedSpecChar.replace("<p>", "");
+            escapedSpecChar = escapedSpecChar.replace("</p>", "");
+
+            log.info("Output text: {}", escapedSpecChar);
 
             return textRecognitionClient.recognitionText(escapedSpecChar);
         } catch (Exception e) {
